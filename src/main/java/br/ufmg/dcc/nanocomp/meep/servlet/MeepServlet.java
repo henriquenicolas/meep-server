@@ -2,6 +2,7 @@ package br.ufmg.dcc.nanocomp.meep.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +54,8 @@ public class MeepServlet extends HttpServlet {
 			outputWatcher.start();
 			errorWatcher.start();
 			
-			try (OutputStreamWriter writer = new OutputStreamWriter(process.getOutputStream())){
+			try (OutputStream os = process.getOutputStream();
+					OutputStreamWriter writer = new OutputStreamWriter(os)){
 				String line;
 				while((line=req.getReader().readLine())!=null) {
 					writer.write(line);
